@@ -1,5 +1,48 @@
 #!/usr/bin/env ruby
 $:.unshift File.expand_path('../../lib', __FILE__)
 require 'scrutinize'
+require 'optparse'
+require 'json'
 
-Scrutinize.scan 'dir' => './', 'methods' => ARGV.map(&:to_sym)
+options      = {'triggers' => [], 'dir' => '.'}
+last_trigger = {}
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: scrutinize [options] [method_name ...]"
+
+  opts.on("-r", "--ruby-version", "=MANDATORY", String, "The Ruby version of the files we're searching through") do |r|
+    options['ruby_version'] = r
+  end
+
+  opts.on("-d", "--directory", "=MANDATORY", String, "The directory to search") do |d|
+    options['dir'] = d
+  end
+
+  opts.on("-t", "--targets", "=MANDATORY", Array, "A comma separated list of targets to search for the next set of methods on") do |t|
+    if last_trigger['targets']
+      options['triggers'] << last_trigger
+      last_trigger = {}
+    end
+
+    last_trigger['targets'] = t
+  end
+
+  opts.on("-m", "--methods", "=MANDATORY", Array, "A comma separated list of methods to search for on the last listed set of targets") do |m|
+    if last_trigger['methods']
+      options['triggers'] << last_trigger
+      last_trigger = {}
+    end
+
+    last_trigger['methods'] = m
+  end
+
+  opts.on_tail("-h", "--help", "Show this message") do
+    puts opts
+    exit
+  end
+end.parse!
+
+last_trigger['methods'] = ARGV unless ARGV.empty?
+options['triggers'] << last_trigger
+
+Scrutinize.scan options
