@@ -45,6 +45,7 @@ module Scrutinize
     # Returns nothing.
     def process_send(node)
       target = get_src node.children[0] if node.children[0]
+      target = target.slice(2..-1) if node.children[0] && target.start_with?('::')
       method = node.children[1]
 
       if @trigger.match? target, method
@@ -87,6 +88,7 @@ module Scrutinize
       lines << src_lines[begin_line][begin_column..-1]
       lines += src_lines[middle_lines]
       lines << src_lines[end_line][0...end_line]
+      lines.join "\n"
     end
 
     # The AST of the source code.

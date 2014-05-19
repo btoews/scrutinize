@@ -19,35 +19,40 @@ Usage: scrutinize [options] [method_name ...]
 **Search for calls to `puts` on any target:**
 
 ```
-$ scrutinize puts
-./foo.rb:6 f.puts
-./foo.rb:7 puts
+mastahyeti% scrutinize puts
+./lib/sinatra/base.rb:1136 @env['rack.errors'].puts
+./lib/sinatra/base.rb:1416 $stderr.puts
+./test/integration/app.rb:58 puts
+...
 ```
 
 **Search for calls to `puts` with *no* target:**
 
 ```
-$ scrutinize -t SCRUTINIZE_NONE puts
-./foo.rb:7 puts
+mastahyeti% scrutinize -t SCRUTINIZE_NONE puts
+./test/integration/app.rb:58 puts
 ```
 
 **Search for calls to `read` or `write` on the `IO` or `File` modules:**
 
 ```bash
-$ scrutinize -t IO,File -m read,write
-./foo.rb:1 File.read
-./foo.rb:2 IO.read
-./foo.rb:3 IO.write
+mastahyeti% scrutinize -t IO,File -m read,binread
+./lib/sinatra/base.rb:1275 IO.binread
+./lib/sinatra/base.rb:1275 IO.read
+./test/encoding_test.rb:13 File.read
+...
 ```
 
-**Search for calls to any method on the `IO` or `File` module:**
+**Search for calls to any method on the `IO` or `File` modules:**
 
 ```bash
-$ scrutinize -t IO,File
-./foo.rb:1 File.read
-./foo.rb:2 IO.read
-./foo.rb:3 IO.write
-./foo.rb:4 File.open
+mastahyeti% scrutinize -t IO,File
+./lib/sinatra/base.rb:44 File.fnmatch
+./lib/sinatra/base.rb:1275 IO.read
+./test/integration_helper.rb:26 File.expand_path
+./test/integration_helper.rb:42 IO.popen
+./test/yajl_test.rb:9 File.dirname
+...
 ```
 
 ## Installation
