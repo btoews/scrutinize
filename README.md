@@ -1,8 +1,8 @@
-### Scrutinize
+# Scrutinize
 
 Ruby method call searcher.
 
-#### Usage
+## Usage
 
 ```
 Usage: scrutinize [options] [method_name ...]
@@ -14,7 +14,7 @@ Usage: scrutinize [options] [method_name ...]
     -h, --help                       Show this message
 ```
 
-##### Examples
+### Examples
 
 **Search for calls to `puts` on any target:**
 
@@ -50,13 +50,9 @@ $ scrutinize -t IO,File
 ./foo.rb:4 File.open
 ```
 
-#### Installation
+## Installation
 
 ```
 bundle install
 rake install
 ```
-
-#### ToDo
-
-* [ ] Cache parsed method calls.
