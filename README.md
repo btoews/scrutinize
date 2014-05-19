@@ -35,7 +35,7 @@ mastahyeti% scrutinize -t SCRUTINIZE_NONE puts
 
 **Search for calls to `read` or `write` on the `IO` or `File` modules:**
 
-```bash
+```
 mastahyeti% scrutinize -t IO,File -m read,binread
 ./lib/sinatra/base.rb:1275 IO.binread
 ./lib/sinatra/base.rb:1275 IO.read
@@ -45,7 +45,7 @@ mastahyeti% scrutinize -t IO,File -m read,binread
 
 **Search for calls to any method on the `IO` or `File` modules:**
 
-```bash
+```
 mastahyeti% scrutinize -t IO,File
 ./lib/sinatra/base.rb:44 File.fnmatch
 ./lib/sinatra/base.rb:1275 IO.read
