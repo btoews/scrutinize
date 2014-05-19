@@ -19,7 +19,7 @@ Usage: scrutinize [options] [method_name ...]
 **Search for calls to `puts` on any target:**
 
 ```
-mastahyeti% scrutinize puts
+$ scrutinize puts
 ./lib/sinatra/base.rb:1136 @env['rack.errors'].puts
 ./lib/sinatra/base.rb:1416 $stderr.puts
 ./test/integration/app.rb:58 puts
@@ -29,14 +29,14 @@ mastahyeti% scrutinize puts
 **Search for calls to `puts` with *no* target:**
 
 ```
-mastahyeti% scrutinize -t SCRUTINIZE_NONE puts
+$ scrutinize -t SCRUTINIZE_NONE puts
 ./test/integration/app.rb:58 puts
 ```
 
 **Search for calls to `read` or `write` on the `IO` or `File` modules:**
 
 ```
-mastahyeti% scrutinize -t IO,File -m read,binread
+$ scrutinize -t IO,File -m read,binread
 ./lib/sinatra/base.rb:1275 IO.binread
 ./lib/sinatra/base.rb:1275 IO.read
 ./test/encoding_test.rb:13 File.read
@@ -46,7 +46,7 @@ mastahyeti% scrutinize -t IO,File -m read,binread
 **Search for calls to any method on the `IO` or `File` modules:**
 
 ```
-mastahyeti% scrutinize -t IO,File
+$ scrutinize -t IO,File
 ./lib/sinatra/base.rb:44 File.fnmatch
 ./lib/sinatra/base.rb:1275 IO.read
 ./test/integration_helper.rb:26 File.expand_path
