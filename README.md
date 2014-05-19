@@ -24,5 +24,4 @@ rake install
 
 #### ToDo
 
-* [ ] Load config from file (saved searches).
 * [ ] Cache parsed method calls.
