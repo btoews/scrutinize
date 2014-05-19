@@ -10,18 +10,6 @@ last_trigger = {}
 OptionParser.new do |opts|
   opts.banner = "Usage: scrutinize [options] [method_name ...]"
 
-  opts.on("-r", "--ruby-version", "=MANDATORY", String, "The Ruby version of the files we're searching through") do |r|
-    options['ruby_version'] = r
-  end
-
-  opts.on("-d", "--directory", "=MANDATORY", String, "The directory to search") do |d|
-    options['dir'] = d
-  end
-
-  opts.on("-c", "--config", "=MANDATORY", String, "A YAML config file to load") do |c|
-    options.merge! YAML.load File.read c
-  end
-
   opts.on("-t", "--targets", "=MANDATORY", Array, "A comma separated list of targets to search for the next set of methods on") do |t|
     if last_trigger['targets']
       options['triggers'] << last_trigger
@@ -38,6 +26,18 @@ OptionParser.new do |opts|
     end
 
     last_trigger['methods'] = m
+  end
+
+  opts.on("-d", "--directory", "=MANDATORY", String, "The directory to search") do |d|
+    options['dir'] = d
+  end
+
+  opts.on("-c", "--config", "=MANDATORY", String, "A YAML config file to load") do |c|
+    options.merge! YAML.load File.read c
+  end
+
+  opts.on("-r", "--ruby-version", "=MANDATORY", String, "The Ruby version of the files we're searching through") do |r|
+    options['ruby_version'] = r
   end
 
   opts.on_tail("-h", "--help", "Show this message") do
