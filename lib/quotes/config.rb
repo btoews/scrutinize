@@ -1,6 +1,4 @@
-require 'scrutinize/trigger'
-
-module Scrutinize
+module Quotes
   class Config
     KNOWN_VERSIONS = %w(ruby18 ruby19 ruby20 ruby21 ruby22)
 
@@ -12,33 +10,12 @@ module Scrutinize
       @options[key]
     end
 
-    def files
-      Dir.glob(File.join(@options['dir'], "**/*.rb"))
+    def force?
+      @options['force']
     end
 
-    # Public: A Trigger object based on the configured options.
-    #
-    # Returns a Trigger.
-    def trigger
-      @trigger ||= begin
-        trigger = Scrutinize::Trigger.new
-
-        # Trigger configured at top level
-        keys = %w(methods method targets target)
-        unless (@options.keys & keys).empty?
-          trigger.add @options.select { |k,v| keys.include?(k) }
-        end
-
-        # Trigger configured under trigger key
-        trigger.add @options['trigger'] if @options['trigger'].is_a?(Hash)
-
-        # Triggers configured under triggers key
-        if @options['triggers'].is_a? Array
-          @options['triggers'].each { |t| trigger.add t }
-        end
-
-        trigger
-      end
+    def files
+      Dir.glob(File.join(@options['dir'], "**/*.rb"))
     end
 
     # Public: The normalized Ruby version, inferred from RUBY_VERSION and the
@@ -71,7 +48,7 @@ module Scrutinize
       @ruby_parser ||= parser_for_version ruby_version
     end
 
-    private 
+    private
 
     # Normalize a Ruby version.
     #

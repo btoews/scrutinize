@@ -1,0 +1,30 @@
+#!/usr/bin/env ruby
+$:.unshift File.expand_path('../../lib', __FILE__)
+require 'Quotes'
+require 'optparse'
+require 'yaml'
+
+options = {'dir' => '.', 'force' => false}
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: quotes [options]"
+
+  opts.on("-f", "--force", "Actually replace single quotes") do |f|
+    options['force'] = f
+  end
+
+  opts.on("-d", "--directory", "=MANDATORY", String, "The directory to search") do |d|
+    options['dir'] = d
+  end
+
+  opts.on("-r", "--ruby-version", "=MANDATORY", String, "The Ruby version of the files we're searching through") do |r|
+    options['ruby_version'] = r
+  end
+
+  opts.on_tail("-h", "--help", "Show this message") do
+    puts opts
+    exit
+  end
+end.parse!
+
+Quotes.scan options
