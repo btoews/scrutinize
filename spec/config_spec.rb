@@ -17,6 +17,10 @@ describe Scrutinize::Config do
           'ruby21'
         when /^2\.2\./
           'ruby22'
+        when /^2\.3\./
+          'ruby23'
+        when /^2\.4\./
+          'ruby24'
         end
 
       expect(subject.ruby_version).to eq(expected)
