@@ -2,7 +2,7 @@ require 'scrutinize/trigger'
 
 module Scrutinize
   class Config
-    KNOWN_VERSIONS = %w(ruby18 ruby19 ruby20 ruby21 ruby22)
+    KNOWN_VERSIONS = %w(ruby18 ruby19 ruby20 ruby21 ruby22, ruby23, ruby24)
 
     def initialize(opts = {})
       @options = opts
@@ -71,7 +71,7 @@ module Scrutinize
       @ruby_parser ||= parser_for_version ruby_version
     end
 
-    private 
+    private
 
     # Normalize a Ruby version.
     #
@@ -92,8 +92,12 @@ module Scrutinize
         'ruby21'
       when /^2\.2\./
         'ruby22'
+      when /^2\.3\./
+        'ruby23'
+      when /^2\.4\./
+        'ruby24'
       else
-        raise NotImplementedError
+        raise NotImplementedError, "unsupported Ruby version '#{version}'"
       end
     end
 
